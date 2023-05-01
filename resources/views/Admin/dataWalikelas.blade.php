@@ -1,0 +1,187 @@
+@extends('adminlte::page')
+@section('title', 'Data Walikelas')
+@section('content_header')
+<h1>Data Walikelas</h1>
+@stop
+@section('content')
+    <div class="container-fluid">
+        <div class="card card-default">
+            <div class="card-header">{{ __('Pengelolaan Data Walikelas') }}</div>
+            <div class="card-body">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#tambahWalikelasModal"><i class="fa fa-plus"></i>
+                    Tambah Data</button>
+                    <hr />
+                <table id="table-data" class="table table-striped table-white">
+                    <thead>
+                        <tr class="text-center">
+                            <th>NO</th>
+                            <th>Nama Walikelas</th>
+                            <th>Tahun Akademik</th>
+                            <th>Kelas</th>
+                            <th>AKSI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @php $no=1; 
+                    @endphp
+                        @foreach ($walikelas as $row)
+                            <tr>
+                                <td class="text-center">{{ $no++ }}</td>
+                                <td class="text-center">{{ $row->guru->nama_lengkap }}</td>
+                                <td class="text-center">{{ $row->akademik->tahun_akademik }}</td>
+                                <td class="text-center">{{ $row->kelas->nama_kelas }}</td>
+                                
+                                <td class="text-center">
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                        <button type="button" id="btn-edit-walikelas" class="btn btn-xs btn-success"
+                                            data-toggle="modal" data-target="#ubahWalikelasModal"
+                                            data-id="{{ $row->id }}"><i class="fa fa-edit"></i></button>
+                                            <button class="btn btn-xs"></button>
+                                            {!! Form::open(['url' => 'admin/walikelas/delete/'.$row->id, 'method' => 'POST']) !!}
+                                        {{ Form::button('<i class="fa fa-times"></i>', ['class' => 'btn btn-xs btn-danger', 'onclick' => "deleteConfirmation('".$row->guru->nama_lengkap."')"]) }}
+                                    {!! Form::close() !!}
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+<!-- Tambah Guru -->
+<div class="modal fade" id="tambahWalikelasModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Data Walikelas</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{{ route('admin.walikelas.submit') }}" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group">
+                        <label for="akademik">Tahun_Akademik</label>
+                            <select name="akademik" id="akademik" class="form-control">
+                                <option value="">Pilih Tahun Akademik</option>
+                                @foreach($akademik as $ak)
+                            <option value="{{$ak->id}}">{{$ak->tahun_akademik}}</option>
+                            @endforeach
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                        <label for="kelas">Kelas</label>
+                            <select name="kelas" id="kelas" class="form-control">
+                                <option value="">Pilih kelas</option>
+                                @foreach($kelas as $ks)
+                            <option value="{{$ks->id}}">{{$ks->nama_kelas}}</option>
+                            @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                        <label for="guru">Guru</label>
+                            <select name="guru" id="guru" class="form-control">
+                                <option value="">Pilih Guru</option>
+                                @foreach($guru as $gr)
+                            <option value="{{$gr->NUPTK}}">{{$gr->nama_lengkap}}</option>
+                            @endforeach
+                            </select>
+                        </div>
+                        
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary">Kirim</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+     <!-- Ubah Guru -->
+     <div class="modal fade" id="ubahWalikelasModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ubah Data Jadwal</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{{ route('admin.walikelas.update') }}" enctype="multipart/form-data">
+                    @csrf
+                        @method('PATCH')
+                        <div class="form-group">
+                        <label for="edit-akademik">Tahun_Akademik</label>
+                            <select name="akademik" id="edit-akademik" class="form-control">
+                                <option value="">Pilih Tahun Akademik</option>
+                                @foreach($akademik as $ak)
+                            <option value="{{$ak->id}}">{{$ak->tahun_akademik}}</option>
+                            @endforeach
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                        <label for="edit-kelas">Kelas</label>
+                            <select name="kelas" id="edit-kelas" class="form-control">
+                                <option value="">Pilih kelas</option>
+                                @foreach($kelas as $ks)
+                            <option value="{{$ks->id}}">{{$ks->nama_kelas}}</option>
+                            @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                        <label for="edit-guru">Guru</label>
+                            <select name="guru" id="edit-guru" class="form-control">
+                                <option value="">Pilih Guru</option>
+                                @foreach($guru as $gr)
+                            <option value="{{$gr->NUPTK}}">{{$gr->nama_lengkap}}</option>
+                            @endforeach
+                            </select>
+                        </div>
+                        
+
+                </div>
+                <div class="modal-footer">
+                <input type="hidden" name="id" id="edit-id" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary">Ubah</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @stop
+    @section('js')
+    <script>
+        //EDIT
+        $(function() {
+            $(document).on('click', '#btn-edit-walikelas', function() {
+                let id = $(this).data('id');
+                $.ajax({
+                    type: "get",
+                    url: "{{ url('/admin/ajaxadmin/dataWalikelas') }}/" + id,
+                    dataType: 'json',
+                    success: function(res) {
+                        $('#edit-akademik').val(res.tahun__akademik_id);
+                        $('#edit-kelas').val(res.kelas_id);
+                        $('#edit-guru').val(res.NUPTK);
+                        $('#edit-id').val(res.id);
+                    },
+                });
+            });
+        });
+
+        
+
+        </script>
+    @stop
