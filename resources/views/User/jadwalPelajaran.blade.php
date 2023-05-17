@@ -1,4 +1,5 @@
 @extends('adminlte::page')
+<link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 @section('title', 'Jadwal Pelajaran')
 @section('content_header')
 <h1>Jadwal Pelajaran</h1>

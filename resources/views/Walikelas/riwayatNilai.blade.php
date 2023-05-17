@@ -1,4 +1,5 @@
 @extends('adminlte::page')
+<link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 @section('title', 'Data Nilai')
 @section('content_header')
 <h1>Data Nilai</h1>
@@ -6,7 +7,7 @@
 @section('content')
     <div class="container-fluid">
     <div>
-                    <table id="table-data" class="table table-white">
+                    <table id="datatable" class="table table-white">
                     @foreach ($riwayat as $row)
                         <tbody>
                             <tr>
@@ -90,7 +91,7 @@
                         @csrf
                         <div class="form-group">
                             <label for="NISN">NISN</label>
-                            <input type="text" class="form-control" name="NISN" id="NISN" required />
+                            <input type="number" class="form-control" name="NISN" id="NISN" required />
                         </div>
                         <div class="form-group">
                             <label for="Nilai">Nilai</label>
@@ -141,7 +142,7 @@
                         @method('PATCH')
                         <div class="form-group">
                             <label for="edit-NISN">NISN</label>
-                            <input type="text" class="form-control" name="NISN" id="edit-NISN" required />
+                            <input type="number" class="form-control" name="NISN" id="edit-NISN" required />
                         </div>
                         <div class="form-group">
                             <label for="edit-Nilai">Nilai</label>
@@ -201,6 +202,25 @@
             });
         });
 
+
+        function deleteConfirmation(jurusan)
+        {
+            var form = event.target.form;
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                icon: 'warning',
+                html: "Anda akan menghapus data dengan nama <strong>"+jurusan+"</strong> dan tidak dapat mengembalikannya kembali",
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Batal',
+                confirmButtonText: 'Ya, hapus saja!',
+            }). then((result) => {
+                if(result.value) {
+                    form.submit();
+                }
+            });
+        }
   
         </script>
     @stop

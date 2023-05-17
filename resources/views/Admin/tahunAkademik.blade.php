@@ -1,4 +1,5 @@
 @extends('adminlte::page')
+<link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 @section('title', 'Data Tahun Akademik')
 @section('content_header')
 <h1>Data Tahun Akademik</h1>
@@ -163,5 +164,23 @@
             });
         });
 
+        function deleteConfirmation(jurusan)
+        {
+            var form = event.target.form;
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                icon: 'warning',
+                html: "Anda akan menghapus data dengan nama <strong>"+jurusan+"</strong> dan tidak dapat mengembalikannya kembali",
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Batal',
+                confirmButtonText: 'Ya, hapus saja!',
+            }). then((result) => {
+                if(result.value) {
+                    form.submit();
+                }
+            });
+        }
         </script>
     @stop

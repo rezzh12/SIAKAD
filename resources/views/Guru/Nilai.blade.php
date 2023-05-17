@@ -1,4 +1,5 @@
 @extends('adminlte::page')
+<link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 @section('title', 'Data Nilai')
 @section('content_header')
 <h1>Data Nilai</h1>
@@ -6,7 +7,7 @@
 @section('content')
     <div class="container-fluid">
     <div>
-                    <table id="table-data" class="table table-white">
+                    <table id="datatable" class="table table-white">
                     @foreach ($akademik as $row)
                         <tbody>
                             <tr>

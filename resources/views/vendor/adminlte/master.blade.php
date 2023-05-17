@@ -13,6 +13,7 @@
     @yield('meta_tags')
 
     {{-- Title --}}
+    
     <title>
         @yield('title_prefix', config('adminlte.title_prefix', ''))
         @yield('title', config('adminlte.title', 'AdminLTE 3'))
@@ -28,11 +29,16 @@
         <link rel="stylesheet" href="{{ asset('vendor/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
 
+
         @if(config('adminlte.google_fonts.allowed', true))
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
         @endif
     @else
         <link rel="stylesheet" href="{{ mix(config('adminlte.laravel_mix_css_path', 'css/app.css')) }}">
+        <link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        
+
     @endif
 
     {{-- Extra Configured Plugins Stylesheets --}}
@@ -86,6 +92,7 @@
         <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
         <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
+       
     @else
         <script src="{{ mix(config('adminlte.laravel_mix_js_path', 'js/app.js')) }}"></script>
     @endif
@@ -106,6 +113,68 @@
     @yield('adminlte_js')
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        time: 3000,
+    })
+    @if(Session::has('message'))
+    var type = "{{Session::get('alert-type')}}";
+    switch (type) {
+        case 'info':
+            Toast.fire({
+                type: 'info',
+                title: "{{Session::get('message')}}"
+            })
+            break;
+        case 'success':
+            Toast.fire({
+                type: 'success',
+                title: "{{Session::get('message')}}"
+            })
+            break;
+        case 'warning':
+            Toast.fire({
+                type: 'warning',
+                title: "{{Session::get('message')}}"
+            })
+            break;
+        case 'error':
+            Toast.fire({
+                type: 'error',
+                title: "{{Session::get('message')}}"
+            })
+            break;
+        case 'dialog_error':
+            Toast.fire({
+                type: 'error',
+                title: "{{Session::get('message')}}",
+                timer: 3000
+            })
+            break;
+    }
+    @endif
+
+    @if($errors -> any())
+    @foreach($errors -> all() as $error)
+    Swal.fire({
+        type: 'error',
+        title: "Ooops",
+        text: "{{ $error }}",
+    })
+    @endforeach
+    @endif
+    $('#table-data').DataTable();
+    let baseurl = "<?=url('/')?>";
+    let fullURL = "<?=url()->full()?>";
+    </script>
+    <script>
+        $(document).ready( function () {
+    $('#table-data').DataTable();
+} );
+    </script>
     <script>
     
     @if(session('status'))
@@ -130,26 +199,13 @@
                 icon: 'error',
             })
         @endif
-
-        function deleteConfirmation(jurusan)
-        {
-            var form = event.target.form;
-            Swal.fire({
-                title: 'Apakah anda yakin?',
-                icon: 'warning',
-                html: "Anda akan menghapus data dengan nama <strong>"+jurusan+"</strong> dan tidak dapat mengembalikannya kembali",
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                cancelButtonText: 'Batal',
-                confirmButtonText: 'Ya, hapus saja!',
-            }). then((result) => {
-                if(result.value) {
-                    form.submit();
-                }
-            });
-        }
+        
     </script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script type ="text/javascript" src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+                <script type ="text/javascript" src="https://cdn.datatables.net/1.11.13/js/jquery.dataTables.min.js"></script>
+                <script type ="text/javascript" src="https://cdn.datatables.net/1.11.13/js/datTables.bootstrap5.min.js"></script>
 
 </body>
 

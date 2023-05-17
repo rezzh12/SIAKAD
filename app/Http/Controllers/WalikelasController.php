@@ -120,10 +120,10 @@ class WalikelasController extends Controller
 
     public function submit_riwayat(Request $req){
         { $validate = $req->validate([
-            'NISN'=> 'required|max:255',
-            'Nilai'=> 'required|max:255',
-            'Ketercapaian'=> 'required|max:255',
-            'Deskripsi'=> 'required|max:255',
+            'NISN'=> 'required|unique:riwayat__nilais|min:10|max:10',
+            'Nilai'=> 'required',
+            'Ketercapaian'=> 'required',
+            'Deskripsi'=> 'required',
             'nilai_id'=> 'required',
         ]);
         $riwayat = new Riwayat_Nilai;
@@ -140,10 +140,10 @@ class WalikelasController extends Controller
     { 
         $riwayat= Riwayat_Nilai::find($req->get('id'));
         { $validate = $req->validate([
-            'NISN'=> 'required|max:255',
-            'Nilai'=> 'required|max:255',
-            'Ketercapaian'=> 'required|max:255',
-            'Deskripsi'=> 'required|max:255',
+            'NISN'=> 'required|unique:riwayat__nilais|min:10|max:10',
+            'Nilai'=> 'required',
+            'Ketercapaian'=> 'required',
+            'Deskripsi'=> 'required',
             'nilai_id'=> 'required',
         ]);
         $riwayat->NISN = $req->get('NISN');

@@ -178,7 +178,7 @@ Route::patch('admin/data_user/update',
     [App\Http\Controllers\AdminController::class, 'update_user'])->name('admin.pengguna.update')->middleware('is_admin');
 Route::post('admin/data_user/delete/{id}',
     [App\Http\Controllers\AdminController::class, 'delete_user'])->name('admin.pengguna.delete')->middleware('is_admin');
-Route::get('admin/data_user/dataUser/{id}', 
+Route::get('admin/ajaxadmin/dataUser/{id}', 
     [App\Http\Controllers\AdminController::class, 'getDataUser']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('user.home');

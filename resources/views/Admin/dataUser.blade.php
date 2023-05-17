@@ -1,4 +1,5 @@
 @extends('adminlte::page')
+<link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 @section('title', 'Data User')
 @section('content_header')
 <h1>Data User</h1>
@@ -39,9 +40,8 @@
                                             data-toggle="modal" data-target="#ubahUserModal"
                                             data-id="{{ $row->id }}"><i class="fa fa-edit"></i></button>
                                             <button class="btn btn-xs"></button>
-                                            {!! Form::open(['url' => 'admin/data_user/delete/'.$row->id, 'method' => 'POST']) !!}
-                                        {{ Form::button('<i class="fa fa-times"></i>', ['class' => 'btn btn-xs btn-danger', 'onclick' => "deleteConfirmation('".$row->name."')"]) }}
-                                    {!! Form::close() !!}
+                                            <button type="button" class="btn btn-danger"
+                                            onclick="deleteConfirmation('{{ $row->id }}', '{{ $row->name }}' )"><i class="fa fa-times"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -68,7 +68,7 @@
                         <div class="col-md-6">
                         <div class="form-group">
                             <label for="id_status">ID Status</label>
-                            <input type="text" class="form-control" name="id_status" id="id_status" required />
+                            <input type="number" class="form-control" name="id_status" id="id_status" required />
                         </div>
                         <div class="form-group">
                             <label for="name">Nama</label>
@@ -137,11 +137,11 @@
                         <div class="col-md-6">
                         <div class="form-group">
                             <label for="edit-id_status">ID Status</label>
-                            <input type="text" class="form-control" name="id_status" id="edit-id_status" required />
+                            <input type="number" class="form-control" name="id_status" id="edit-id_status" required />
                         </div>
                         <div class="form-group">
                             <label for="edit-name">Nama</label>
-                            <input type="text" class="form-control" name="edit-name" id="edit-name" required />
+                            <input type="text" class="form-control" name="name" id="edit-name" required />
                         </div>
                         <div class="form-group">
                         <label for="edit-username">Username</label>
@@ -213,6 +213,49 @@
             });
         });
 
+        function deleteConfirmation(npm, judul) {
+            swal.fire({
+                title: "Hapus?",
+                type: 'warning',
+                text: "Apakah anda yakin akan menghapus data buku dengan nama " + judul + "?!",
+
+                showCancelButton: !0,
+                confirmButtonText: "Ya, lakukan!",
+                cancelButtonText: "Tidak, batalkan!",
+                reverseButtons: !0
+            }).then(function(e) {
+
+                if (e.value === true) {
+                    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+                    $.ajax({
+                        type: 'POST',
+                        url: "data_user/delete/" + npm,
+                        data: {
+                            _token: CSRF_TOKEN
+                        },
+                        dataType: 'JSON',
+                        success: function(results) {
+                            if (results.success === true) {
+                                swal.fire("Done!", results.message, "success");
+                                // refresh page after 2 seconds
+                                setTimeout(function() {
+                                    location.reload();
+                                }, 1000);
+                            } else {
+                                swal.fire("Error!", results.message, "error");
+                            }
+                        }
+                    });
+
+                } else {
+                    e.dismiss;
+                }
+
+            }, function(dismiss) {
+                return false;
+            })
+        }
   
         </script>
     @stop

@@ -1,4 +1,5 @@
 @extends('adminlte::page')
+<link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 @section('title', 'Data Nilai')
 @section('content_header')
 <h1>Data Nilai</h1>
@@ -6,7 +7,7 @@
 @section('content')
     <div class="container-fluid">
     <div>
-                    <table id="table-data" class="table table-white">
+                    <table id="datatable" class="table table-white">
                     @foreach ($nilai as $row)
                         <tbody>
                             <tr>
@@ -97,7 +98,7 @@
                         </div>
                         <div class="form-group">
                             <label for="Nilai">Nilai</label>
-                            <input type="text" class="form-control" name="Nilai" id="Nilai" required />
+                            <input type="number" class="form-control" name="Nilai" id="Nilai" required />
                         </div>
                         </div>
                         
@@ -134,7 +135,7 @@
                         </div>
                         <div class="form-group">
                             <label for="edit-Nilai">Nilai</label>
-                            <input type="text" class="form-control" name="Nilai" id="edit-Nilai" required />
+                            <input type="number" class="form-control" name="Nilai" id="edit-Nilai" required />
                         </div>
                         </div>
                         
@@ -173,6 +174,24 @@
             });
         });
 
+        function deleteConfirmation(jurusan)
+        {
+            var form = event.target.form;
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                icon: 'warning',
+                html: "Anda akan menghapus data dengan nama <strong>"+jurusan+"</strong> dan tidak dapat mengembalikannya kembali",
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Batal',
+                confirmButtonText: 'Ya, hapus saja!',
+            }). then((result) => {
+                if(result.value) {
+                    form.submit();
+                }
+            });
+        }
   
         </script>
     @stop

@@ -16,7 +16,7 @@ class CreateRiwayatNilaisTable extends Migration
         Schema::create('riwayat__nilais', function (Blueprint $table) {
             $table->id();
             $table->foreignId('nilai_id')->constrained();
-            $table->string('NISN',11);
+            $table->string('NISN',15);
             $table->string('ketercapaian',11)->nullable();
             $table->string('Deskripsi',255)->nullable();
             $table->string('nilai',10);

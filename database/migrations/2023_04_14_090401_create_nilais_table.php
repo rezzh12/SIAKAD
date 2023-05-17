@@ -17,7 +17,7 @@ class CreateNilaisTable extends Migration
             $table->id();
 
             $table->foreignId('tahun__akademik_id')->constrained();
-            $table->string('NUPTK',11);
+            $table->string('NUPTK',20);
             $table->foreignId('mapel_id')->constrained();
             $table->foreignId('kelas_id')->constrained();
             $table->timestamps();

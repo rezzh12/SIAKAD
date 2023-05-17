@@ -19,7 +19,7 @@
               <div class="icon">
                 <i class="fa fa-id-badge"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+             
             </div>
           </div>
           <!-- ./col -->
@@ -34,7 +34,7 @@
               <div class="icon">
                 <i class="fa fa-users"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+             
             </div>
           </div>
           <!-- ./col -->
@@ -49,7 +49,7 @@
               <div class="icon">
                 <i class="fa fa-university"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              
             </div>
           </div>
           <!-- ./col -->
@@ -64,7 +64,7 @@
               <div class="icon">
                 <i class="fa fa-user"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              
             </div>
           </div>
           <!-- ./col -->

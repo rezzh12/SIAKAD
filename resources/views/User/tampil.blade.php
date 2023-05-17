@@ -29,12 +29,10 @@
 
                     <div>
         <div class="card card-default">
-            <div class="card-header">{{ __('Pengelolaan Nilai Siswa') }}</div>
+            <div class="card-header">{{ __('Data Nilai Siswa') }}</div>
             <div class="card-body">
-            <button class="btn btn-primary" data-toggle="modal" data-target="#tambahRiwayatModal"><i class="fa fa-plus"></i>
-                    Tambah Data</button>
                     <hr />
-                <table id="table-data" class="table table-striped table-white">
+                <table id="datatable" class="table table-striped table-white">
                     <thead>
                         <tr class="text-center">
                             <th>NO</th>

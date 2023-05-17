@@ -51,8 +51,8 @@ class AdminController extends Controller
 
     public function submit_siswa(Request $req){
         { $validate = $req->validate([
-            'NISN'=> 'required|max:255',
-            'nama'=> 'required',
+            'NISN'=> 'required|unique:siswas|min:10|max:10',
+            'nama'=> 'required|',
             'tanggal_lahir'=> 'required',
             'tempat_lahir'=> 'required',
             'gender'=> 'required',
@@ -80,7 +80,7 @@ class AdminController extends Controller
     { 
         $siswa= Siswa::find($req->get('id'));
         { $validate = $req->validate([
-            'NISN'=> 'required|max:255',
+            'NISN'=> 'required|unique:siswas|min:10|max:10',
             'nama'=> 'required',
             'tanggal_lahir'=> 'required',
             'tempat_lahir'=> 'required',
@@ -105,8 +105,12 @@ class AdminController extends Controller
         $siswa = Siswa::find($id);
         $siswa->delete();
 
-        Session::flash('status', 'Hapus data Siswa berhasil!!!');
-        return redirect()->route('admin.siswa');
+        $success = true;
+        $message = "Data Siswa Berhasil Dihapus";
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
     }
     public function importSiswa(Request $req){
         Excel::import(new SiswaImport, $req->file('file'));
@@ -123,7 +127,7 @@ class AdminController extends Controller
 
     public function submit_jurusan(Request $req){
         { $validate = $req->validate([
-            'kode_jurusan'=> 'required',
+            'kode_jurusan'=> 'required|unique:jurusans|min:5|max:5',
             'nama_jurusan'=> 'required',
         ]);
         $jurusan = new Jurusan;
@@ -138,7 +142,7 @@ class AdminController extends Controller
     public function update_jurusan(Request $req){
         $jurusan= Jurusan::find($req->get('id'));
         { $validate = $req->validate([
-            'kode_jurusan'=> 'required',
+            'kode_jurusan'=> 'required|unique:jurusans|min:5|max:5',
             'nama_jurusan'=> 'required',
         ]);
         $jurusan->kode_jurusan = $req->get('kode_jurusan');
@@ -159,8 +163,12 @@ class AdminController extends Controller
         $jurusan = Jurusan::find($id);
         $jurusan->delete();
 
-         Session::flash('status', 'Hapus data Jurusan berhasil!!!');
-        return redirect()->route('admin.jurusan');
+        $success = true;
+        $message = "Data Jurusan Berhasil Dihapus";
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
        
     }
     public function tingkatan(){
@@ -171,7 +179,7 @@ class AdminController extends Controller
 
     public function submit_tingkatan(Request $req){
         { $validate = $req->validate([
-            'kode_tingkatan'=> 'required',
+            'kode_tingkatan'=> 'required|unique:tingkatan__kelas|min:1|max:1',
             'nama_tingkatan'=> 'required',
         ]);
         $tingkatan = new Tingkatan_Kelas;
@@ -186,7 +194,7 @@ class AdminController extends Controller
     public function update_tingkatan(Request $req){
         $tingkatan= Tingkatan_Kelas::find($req->get('id'));
         { $validate = $req->validate([
-            'kode_tingkatan'=> 'required',
+            'kode_tingkatan'=> 'required|unique:tingkatan_kelas|min:1|max:1',
             'nama_tingkatan'=> 'required',
         ]);
         $tingkatan->kode_tingkatan = $req->get('kode_tingkatan');
@@ -206,9 +214,12 @@ class AdminController extends Controller
     {
         $tingkatan = Tingkatan_Kelas::find($id);
         $tingkatan->delete();
-
-         Session::flash('status', 'Hapus data Tingkatan berhasil!!!');
-        return redirect()->route('admin.tingkatan');
+        $success = true;
+        $message = "Data Tingkatan Berhasil Dihapus";
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
        
     }
 
@@ -220,11 +231,11 @@ class AdminController extends Controller
 
     public function submit_ruangan(Request $req){
         { $validate = $req->validate([
-            'kode_ruangan'=> 'required',
+            'kode_ruangan'=> 'required|unique:ruangans|min:5|max:5',
             'nama_ruangan'=> 'required',
         ]);
         $ruangan = new Ruangan;
-        $ruangan->kode_ruangan = $req->get('kode_ruangan');
+        $ruangan->kode_ruangan = $req->get('required|unique:posts|min:5|max:5');
         $ruangan->nama_ruangan = $req->get('nama_ruangan');
 
         $ruangan->save();
@@ -235,7 +246,7 @@ class AdminController extends Controller
     public function update_ruangan(Request $req){
         $ruangan= Ruangan::find($req->get('id'));
         { $validate = $req->validate([
-            'kode_ruangan'=> 'required',
+            'kode_ruangan'=> 'required|unique:ruangans|min:5|max:5',
             'nama_ruangan'=> 'required',
         ]);
         $ruangan->kode_ruangan = $req->get('kode_ruangan');
@@ -256,9 +267,12 @@ class AdminController extends Controller
     {
         $ruangan = Ruangan::find($id);
         $ruangan->delete();
-
-         Session::flash('status', 'Hapus data Ruangan berhasil!!!');
-        return redirect()->route('admin.ruangan');
+        $success = true;
+        $message = "Data Ruangan Berhasil Dihapus";
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
        
     }
 
@@ -270,7 +284,7 @@ class AdminController extends Controller
 
     public function submit_mapel(Request $req){
         { $validate = $req->validate([
-            'kode_mapel'=> 'required',
+            'kode_mapel'=> 'required|unique:mapels|min:5|max:5',
             'nama_mapel'=> 'required',
         ]);
         $mapel = new Mapel;
@@ -285,7 +299,7 @@ class AdminController extends Controller
     public function update_mapel(Request $req){
         $mapel= Mapel::find($req->get('id'));
         { $validate = $req->validate([
-            'kode_mapel'=> 'required',
+            'kode_mapel'=> 'required|unique:mapels|min:5|max:5',
             'nama_mapel'=> 'required',
         ]);
         $mapel->kode_mapel = $req->get('kode_mapel');
@@ -307,9 +321,12 @@ class AdminController extends Controller
         $mapel = Mapel::find($id);
         $mapel->delete();
 
-         Session::flash('status', 'Hapus data Mapel berhasil!!!');
-        return redirect()->route('admin.mapel');
-       
+        $success = true;
+        $message = "Data Mata Pelajaran Berhasil Dihapus";
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
     }
 
     public function akademik(){
@@ -360,9 +377,12 @@ class AdminController extends Controller
     {
         $akademik = Tahun_Akademik::find($id);
         $akademik->delete();
-
-         Session::flash('status', 'Hapus data Tahun Akademik berhasil!!!');
-        return redirect()->route('admin.akademik');
+        $success = true;
+        $message = "Data Akademik Berhasil Dihapus";
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
        
     }
 
@@ -374,7 +394,7 @@ class AdminController extends Controller
 
     public function submit_kurikulum(Request $req){
         { $validate = $req->validate([
-            'kode_kurikulum'=> 'required',
+            'kode_kurikulum'=> 'required|unique:kurikulums|min:3|max:3',
             'nama_kurikulum'=> 'required',
             'status'=> 'required',
         ]);
@@ -391,7 +411,7 @@ class AdminController extends Controller
     public function update_kurikulum(Request $req){
         $kurikulum = Kurikulum::find($req->get('id'));
         { $validate = $req->validate([
-            'kode_kurikulum'=> 'required',
+            'kode_kurikulum'=> 'required|unique:kurikulums|min:3|max:3',
             'nama_kurikulum'=> 'required',
             'status'=> 'required',
         ]);
@@ -414,10 +434,12 @@ class AdminController extends Controller
     {
         $kurikulum = Kurikulum::find($id);
         $kurikulum->delete();
-
-         Session::flash('status', 'Hapus data Kurikulum berhasil!!!');
-        return redirect()->route('admin.akademik');
-       
+        $success = true;
+        $message = "Data Kurikulum Berhasil Dihapus";
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
     }
 
     public function kelas(){
@@ -431,7 +453,7 @@ class AdminController extends Controller
 
     public function submit_kelas(Request $req){
         { $validate = $req->validate([
-            'kode_kelas'=> 'required',
+            'kode_kelas'=> 'required|unique:kelas|min:4|max:5',
             'nama_kelas'=> 'required',
             'tingkatan_id'=> 'required',
             'jurusan_id'=> 'required',
@@ -450,7 +472,7 @@ class AdminController extends Controller
     public function update_kelas(Request $req){
         $kelas= Kelas::find($req->get('id'));
         { $validate = $req->validate([
-            'kode_kelas'=> 'required',
+            'kode_kelas'=> 'required|unique:kelas|min:4|max:5',
             'nama_kelas'=> 'required',
             'tingkatan_id'=> 'required',
             'jurusan_id'=> 'required',
@@ -474,10 +496,12 @@ class AdminController extends Controller
     {
         $kelas = Kelas::find($id);
         $kelas->delete();
-
-         Session::flash('status', 'Hapus data Kelas berhasil!!!');
-        return redirect()->route('admin.kelas.tingkatan.jurusan');
-       
+        $success = true;
+        $message = "Data Kelas Berhasil Dihapus";
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
     }
 
     public function data_guru(){
@@ -488,7 +512,7 @@ class AdminController extends Controller
 
     public function submit_guru(Request $req){
         { $validate = $req->validate([
-            'NUPTK'=> 'required|max:255',
+            'NUPTK'=> 'required|unique:gurus|min:16|max:16',
             'nama'=> 'required',
             'tanggal_lahir'=> 'required',
             'tempat_lahir'=> 'required',
@@ -515,7 +539,7 @@ class AdminController extends Controller
     { 
         $guru= Guru::find($req->get('id'));
         { $validate = $req->validate([
-            'NUPTK'=> 'required|max:255',
+            'NUPTK'=> 'required|unique:gurus|min:16|max:16',
             'nama'=> 'required',
             'tanggal_lahir'=> 'required',
             'tempat_lahir'=> 'required',
@@ -537,9 +561,12 @@ class AdminController extends Controller
     {
         $guru = Guru::find($id);
         $guru->delete();
-
-        Session::flash('status', 'Hapus data Guru berhasil!!!');
-        return redirect()->route('admin.guru');
+        $success = true;
+        $message = "Data Guru Berhasil Dihapus";
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
     }
     public function importGuru(Request $req){
         Excel::import(new GuruImport, $req->file('file'));
@@ -566,7 +593,7 @@ class AdminController extends Controller
 
     public function submit_jadwal(Request $req){
         { $validate = $req->validate([
-            'akademik'=> 'required|max:255',
+            'akademik'=> 'required',
             'semester'=> 'required',
             'jurusan'=> 'required',
             'tingkatan'=> 'required',
@@ -601,7 +628,7 @@ class AdminController extends Controller
     { 
         $jadwal= Jadwal::find($req->get('id'));
         { $validate = $req->validate([
-            'akademik'=> 'required|max:255',
+            'akademik'=> 'required',
             'semester'=> 'required',
             'jurusan'=> 'required',
             'tingkatan'=> 'required',
@@ -632,8 +659,12 @@ class AdminController extends Controller
         $jadwal = Jadwal::find($id);
         $jadwal->delete();
 
-        Session::flash('status', 'Hapus data Jadwal berhasil!!!');
-        return redirect()->route('admin.jadwal');
+        $success = true;
+        $message = "Data Jadwal Berhasil Dihapus";
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
     }
 
     public function walikelas(){
@@ -649,9 +680,9 @@ class AdminController extends Controller
     }
     public function submit_walikelas(Request $req){
         { $validate = $req->validate([
-            'akademik'=> 'required|max:255',
+            'akademik'=> 'required',
             'kelas'=> 'required',
-            'guru'=> 'required',
+            'guru'=> 'required|min:16|max:16',
         ]);
         $walikelas = new Walikelas;
         $walikelas->tahun__akademik_id = $req->get('akademik');
@@ -670,9 +701,9 @@ class AdminController extends Controller
     { 
         $walikelas= Walikelas::find($req->get('id'));
         { $validate = $req->validate([
-            'akademik'=> 'required|max:255',
+            'akademik'=> 'required',
             'kelas'=> 'required',
-            'guru'=> 'required',
+            'guru'=> 'required|min:16|max:16',
         ]);
         $walikelas->tahun__akademik_id = $req->get('akademik');
         $walikelas->kelas_id = $req->get('kelas');
@@ -686,9 +717,12 @@ class AdminController extends Controller
     {
         $walikelas = Walikelas::find($id);
         $walikelas->delete();
-
-        Session::flash('status', 'Hapus data Walikelas berhasil!!!');
-        return redirect()->route('admin.walikelas');
+        $success = true;
+        $message = "Data Walikelas Berhasil Dihapus";
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
     }
 
     public function nilai_siswa(){
@@ -704,8 +738,8 @@ class AdminController extends Controller
 
     public function submit_nilai(Request $req){
         { $validate = $req->validate([
-            'akademik'=> 'required|max:255',
-            'guru'=> 'required|max:255',
+            'akademik'=> 'required',
+            'guru'=> 'required',
             'mapel'=> 'required',
             'kelas'=> 'required',
         ]);
@@ -727,8 +761,8 @@ class AdminController extends Controller
     { 
         $nilai= Nilai::find( $req->get('id'));
         { $validate = $req->validate([
-            'akademik'=> 'required|max:255',
-            'guru'=> 'required|max:255',
+            'akademik'=> 'required',
+            'guru'=> 'required',
             'mapel'=> 'required',
             'kelas'=> 'required',
         ]);
@@ -746,8 +780,12 @@ class AdminController extends Controller
         $nilai = Nilai::find($id);
         $nilai->delete();
 
-        Session::flash('status', 'Hapus data Nilai berhasil!!!');
-        return redirect()->route('admin.nilai');
+        $success = true;
+        $message = "Data Nilai Berhasil Dihapus";
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
     }
     public function riwayat_nilai($id){
         $user = Auth::user();
@@ -758,8 +796,8 @@ class AdminController extends Controller
 
     public function submit_riwayat(Request $req){
         { $validate = $req->validate([
-            'NISN'=> 'required|max:255',
-            'Nilai'=> 'required|max:255',
+            'NISN'=> 'required|unique:riwayat__nilais|min:10|max:10',
+            'Nilai'=> 'required',
             'nilai_id'=> 'required',
         ]);
         $riwayat = new Riwayat_Nilai;
@@ -781,7 +819,7 @@ class AdminController extends Controller
     { 
         $riwayat= Riwayat_Nilai::find($req->get('id'));
         { $validate = $req->validate([
-            'NISN'=> 'required|max:255',
+            'NISN'=> 'required|unique:riwayat__nilais|min:10|max:10',
             'Nilai'=> 'required|max:255',
             'nilai_id'=> 'required',
         ]);
@@ -799,8 +837,8 @@ class AdminController extends Controller
     {
         $riwayat = Riwayat_Nilai::find($id);
         $riwayat->delete();
-
-        Session::flash('status', 'Hapus data Nilai berhasil!!!');
+        
+        Session::flash('status', 'Hapus data User berhasil!!!');
         return redirect()->back();
     }
     
@@ -831,7 +869,7 @@ class AdminController extends Controller
 
     public function submit_user(Request $req){
         { $validate = $req->validate([
-            'id_status'=> 'required|max:255',
+            'id_status'=> 'requiredrequired|unique:posts|min:10|max:16',
             'name'=> 'required',
             'username'=> 'required',
             'email'=> 'required',
@@ -861,7 +899,7 @@ class AdminController extends Controller
     { 
         $user= User::find($req->get('id'));
         { $validate = $req->validate([
-            'id_status'=> 'required|max:255',
+            'id_status'=> 'required|min:10|max:16',
             'name'=> 'required',
             'username'=> 'required',
             'email'=> 'required',
@@ -871,8 +909,8 @@ class AdminController extends Controller
         $user->id_status = $req->get('id_status');
         $user->name = $req->get('name');
         $user->username = $req->get('username');
-        $user->email = $req->get('tempat_lahir');
-        $user->password = $req->get('email');
+        $user->email = $req->get('email');
+        $user->password = Hash::make($req->get('password'));
         $user->roles_id = $req->get('roles_id');
         $user->email_verified_at = null;
         $user->remember_token = null;
@@ -885,8 +923,11 @@ class AdminController extends Controller
     {
         $user = User::find($id);
         $user->delete();
-
-        Session::flash('status', 'Hapus data User berhasil!!!');
-        return redirect()->route('admin.pengguna');
+        $success = true;
+        $message = "Data Pengguna Berhasil Dihapus";
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
     }
 }

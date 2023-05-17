@@ -15,7 +15,7 @@ class CreateWalikelasTable extends Migration
     {
         Schema::create('walikelas', function (Blueprint $table) {
             $table->id();
-            $table->string('NUPTK',11)->unique();
+            $table->string('NUPTK',20)->unique();
             $table->foreignId('tahun__akademik_id')->constrained();
             $table->foreignId('kelas_id')->constrained();
             $table->timestamps();

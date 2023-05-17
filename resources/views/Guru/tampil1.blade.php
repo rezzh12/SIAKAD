@@ -17,7 +17,7 @@
 
     <div class="container-fluid">
     <div>
-                    <table id="table-data" class="table table-white">
+                    <table id="datatable" class="table table-white">
                     @foreach ($riwayat as $row)
                         <tbody>
                             <tr>
