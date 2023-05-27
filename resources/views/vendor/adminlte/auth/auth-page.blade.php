@@ -37,7 +37,7 @@
                          @endif>
                 @else
                     <img src="{{ asset(config('adminlte.logo_img')) }}"
-                         alt="{{ config('adminlte.logo_img_alt') }}" height="50">
+                         alt="{{ config('adminlte.logo_img_alt') }}" height="100">
                 @endif
 
                 {{-- Logo Label --}}
@@ -53,7 +53,7 @@
             @hasSection('auth_header')
                 <div class="card-header {{ config('adminlte.classes_auth_header', '') }}">
                     <h3 class="card-title float-none text-center">
-                        @yield('auth_header')
+                    Already have an account?
                     </h3>
                 </div>
             @endif

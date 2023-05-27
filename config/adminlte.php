@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
+    'title' => 'Login SIAKAD',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -89,8 +89,8 @@ return [
             'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
             'alt' => 'Auth Logo',
             'class' => '',
-            'width' => 50,
-            'height' => 50,
+            'width' => 100,
+            'height' => 100,
         ],
     ],
 
@@ -306,21 +306,25 @@ return [
         [
             'text'        => 'Dashboard',
             'url'         => 'admin/home',
+            'icon'        => 'fas fa-fw fa-tachometer-alt',
             'can'         => 'isAdmin',
         ],
         [
             'text'        => 'Dashboard',
             'url'         => 'siswa/home',
+            'icon'        => 'fas fa-fw fa-tachometer-alt',
             'can'         => 'isUser',
         ],
         [
             'text'        => 'Dashboard',
             'url'         => 'walikelas/home',
+            'icon'        => 'fas fa-fw fa-tachometer-alt',
             'can'         => 'isWalikelas',
         ],
         [
             'text'        => 'Dashboard',
             'url'         => 'guru/home',
+            'icon'        => 'fas fa-fw fa-tachometer-alt',
             'can'         => 'isGuru',
         ],
         [
@@ -344,36 +348,43 @@ return [
                 [
                     'text' => 'Mata Pelajaran',
                     'url'  => 'admin/mapel',
+                    'icon'        => 'fas fa-fw fa-book',
                     'can'         => 'isAdmin',
                 ],
                 [
                     'text' => 'Ruangan Kelas',
                     'url'  => 'admin/ruangan',
+                    'icon'        => 'fas fa-fw fa-school',
                     'can'         => 'isAdmin',
                 ],
                 [
                     'text' => 'Tingkatan Kelas',
                     'url'  => 'admin/tingkatan',
+                    'icon'        => 'fas fa-fw fa-sitemap',
                     'can'         => 'isAdmin',
                 ],
                 [
                     'text' => 'Jurusan',
                     'url'  => 'admin/jurusan',
+                    'icon'        => 'fas fa-fw fa-university',
                     'can'         => 'isAdmin',
                 ],
                 [
                     'text' => 'Tahun Akademik',
                     'url'  => 'admin/akademik',
+                    'icon'        => 'far fa-fw fa-calendar-check',
                     'can'         => 'isAdmin',
                 ],
                 [
                     'text' => 'Kelas',
                     'url'  => 'admin/kelas',
+                    'icon'        => 'fas fa-fw fa-cubes',
                     'can'         => 'isAdmin',
                 ],
                 [
                     'text' => 'Kurikulum',
                     'url'  => 'admin/kurikulum',
+                    'icon'        => 'fas fa-fw fa-list',
                     'can'         => 'isAdmin',
                 ],
                
@@ -430,12 +441,13 @@ return [
         [
             'text'        => 'Laporan Nilai',
             'url'         => 'walikelas/laporan',
-            'icon'        => 'far fa-fw fa-file',
+            'icon'        => 'far fa-fw fa-clipboard',
             'can'         => 'isWalikelas',
         ],
         [
             'text'        => 'WaliKelas',
             'url'         => 'admin/walikelas',
+            'icon'        => 'fas fa-fw fa-user-plus',
             'can'         => 'isAdmin',
         ],
         [

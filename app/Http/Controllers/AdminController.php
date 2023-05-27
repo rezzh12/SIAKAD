@@ -838,8 +838,12 @@ class AdminController extends Controller
         $riwayat = Riwayat_Nilai::find($id);
         $riwayat->delete();
         
-        Session::flash('status', 'Hapus data User berhasil!!!');
-        return redirect()->back();
+        $success = true;
+        $message = "Data Riwayat Berhasil Dihapus";
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
     }
     
     public function all_nilai($id){
