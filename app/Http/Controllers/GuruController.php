@@ -12,6 +12,7 @@ use App\Models\Ruangan;
 use App\Models\Mapel;
 use App\Models\Jadwal;
 use App\Models\Guru;
+use App\Models\Nilai;
 use App\Models\Riwayat_Nilai;
 use PDF;
 use Session;
@@ -78,7 +79,8 @@ class GuruController extends Controller
         ->select('nama_lengkap','riwayat__nilais.NISN','riwayat__nilais.nilai','riwayat__nilais.id AS idr','nilais.id','riwayat__nilais.ketercapaian','riwayat__nilais.Deskripsi')
         ->where('nilais.id','=',$id)
         ->get();
-        return view('Guru.riwayatNilai', compact('user','nilai','riwayat'));
+        $nilais = Nilai::where('id','=',$id)->get();
+        return view('Guru.riwayatNilai', compact('user','nilai','nilais','riwayat'));
     }
 
     public function submit_riwayat(Request $req){
@@ -128,8 +130,11 @@ class GuruController extends Controller
     {
         $riwayat = Riwayat_Nilai::find($id);
         $riwayat->delete();
-
-        Session::flash('status', 'Hapus data Nilai berhasil!!!');
-        return redirect()->route('guru.nilai');
+        $success = true;
+        $message = "Data Pengguna Berhasil Dihapus";
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
     }
 }

@@ -63,9 +63,8 @@
                                             data-toggle="modal" data-target="#ubahRiwayatModal"
                                             data-id="{{ $row->idr }}"><i class="fa fa-edit"></i></button>
                                             <button class="btn btn-xs"></button>
-                                            {!! Form::open(['url' => 'guru/riwayat_nilai/delete/'.$row->idr, 'method' => 'POST']) !!}
-                                        {{ Form::button('<i class="fa fa-times"></i>', ['class' => 'btn btn-xs btn-danger', 'onclick' => "deleteConfirmation('".$row->nama_lengkap."')"]) }}
-                                    {!! Form::close() !!}
+                                            <button type="button" class="btn btn-danger"
+                                            onclick="deleteConfirmation( '{{ $row->idr }}', '{{ $row->nama_lengkap }}' )"><i class="fa fa-times"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -114,7 +113,7 @@
                         </div>
                         
                 <div class="modal-footer">
-                @foreach ($nilai as $row)
+                @foreach ($nilais as $row)
                 <input type="hidden" name="nilai_id" id="nilai_id" value="{{$row->id}}" />
                 @endforeach
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
@@ -202,24 +201,48 @@
             });
         });
 
-        function deleteConfirmation(jurusan)
-        {
-            var form = event.target.form;
-            Swal.fire({
-                title: 'Apakah anda yakin?',
-                icon: 'warning',
-                html: "Anda akan menghapus data dengan nama <strong>"+jurusan+"</strong> dan tidak dapat mengembalikannya kembali",
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                cancelButtonText: 'Batal',
-                confirmButtonText: 'Ya, hapus saja!',
-            }). then((result) => {
-                if(result.value) {
-                    form.submit();
+        function deleteConfirmation( npm, judul) {
+            swal.fire({
+                title: "Hapus?",
+                type: 'warning',
+                text: "Apakah anda yakin akan menghapus data buku dengan nama " + judul + "?!",
+
+                showCancelButton: !0,
+                confirmButtonText: "Ya, lakukan!",
+                cancelButtonText: "Tidak, batalkan!",
+                reverseButtons: !0
+            }).then(function(e) {
+
+                if (e.value === true) {
+                    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+                    $.ajax({
+                        type: 'POST',
+                        url: "delete/" + npm,
+                        data: {
+                            _token: CSRF_TOKEN
+                        },
+                        dataType: 'JSON',
+                        success: function(results) {
+                            if (results.success === true) {
+                                swal.fire("Done!", results.message, "success");
+                                // refresh page after 2 seconds
+                                setTimeout(function() {
+                                    location.reload();
+                                }, 1000);
+                            } else {
+                                swal.fire("Error!", results.message, "error");
+                            }
+                        }
+                    });
+
+                } else {
+                    e.dismiss;
                 }
-            });
+
+            }, function(dismiss) {
+                return false;
+            })
         }
-  
         </script>
     @stop

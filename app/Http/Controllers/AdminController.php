@@ -873,7 +873,7 @@ class AdminController extends Controller
 
     public function submit_user(Request $req){
         { $validate = $req->validate([
-            'id_status'=> 'requiredrequired|unique:posts|min:10|max:16',
+            'id_status'=> 'required|unique:users|min:10|max:16',
             'name'=> 'required',
             'username'=> 'required',
             'email'=> 'required',

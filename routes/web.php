@@ -204,7 +204,7 @@ Route::post('walikelas/riwayat_nilai',
     [App\Http\Controllers\WalikelasController::class, 'submit_riwayat'])->name('walikelas.riwayat.submit')->middleware('is_walikelas');
 Route::patch('walikelas/riwayat_nilai/update', 
     [App\Http\Controllers\WalikelasController::class, 'update_riwayat'])->name('walikelas.riwayat.update')->middleware('is_walikelas');
-    Route::post('walikelas/riwayat_nilai/delete/{id}',
+    Route::get('walikelas/riwayat_nilai/{nilai}/delete/{id}',
     [App\Http\Controllers\WalikelasController::class, 'delete_riwayat'])->name('walikelas.riwayat.delete')->middleware('is_walikelas');
 Route::get('walikelas/ajaxadmin/dataRiwayat/{id}', 
     [App\Http\Controllers\WalikelasController::class, 'getDataRiwayat']);
@@ -226,7 +226,7 @@ Route::get('walikelas/print/{id}',
         [App\Http\Controllers\GuruController::class, 'submit_riwayat'])->name('guru.riwayat.submit')->middleware('is_guru');
     Route::patch('guru/riwayat_nilai/update', 
         [App\Http\Controllers\GuruController::class, 'update_riwayat'])->name('guru.riwayat.update')->middleware('is_guru');
-        Route::post('guru/riwayat_nilai/delete/{id}',
+        Route::post('guru/riwayat_nilai/{nilai}/delete/{id}',
         [App\Http\Controllers\GuruController::class, 'delete_riwayat'])->name('guru.riwayat.delete')->middleware('is_guru');
     Route::get('guru/ajaxadmin/dataRiwayat/{id}', 
         [App\Http\Controllers\GuruController::class, 'getDataRiwayat']);

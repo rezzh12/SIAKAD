@@ -62,10 +62,8 @@
                                         <button type="button" id="btn-edit-riwayat" class="btn btn-xs btn-success"
                                             data-toggle="modal" data-target="#ubahRiwayatModal"
                                             data-id="{{ $row->idr }}"><i class="fa fa-edit"></i></button>
-                                            <button class="btn btn-xs"></button>
-                                            {!! Form::open(['url' => 'walikelas/riwayat_nilai/delete/'.$row->idr, 'method' => 'POST']) !!}
-                                        {{ Form::button('<i class="fa fa-times"></i>', ['class' => 'btn btn-xs btn-danger', 'onclick' => "deleteConfirmation('".$row->nama_lengkap."')"]) }}
-                                    {!! Form::close() !!}
+                                            <a class="btn btn-xs btn-danger" href="delete/{{ $row->idr }}" onclick="return confirm('Apakah Anda Yakin Menghapus Data?')"><i class="fa fa-times"></i></a>
+                                            
                                     </div>
                                 </td>
                             </tr>
@@ -114,7 +112,7 @@
                         </div>
                         
                 <div class="modal-footer">
-                @foreach ($nilai as $row)
+                @foreach ($nilais as $row)
                 <input type="hidden" name="nilai_id" id="nilai_id" value="{{$row->id}}" />
                 @endforeach
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
@@ -167,7 +165,7 @@
                         
 
                 <div class="modal-footer">
-                @foreach ($nilai as $row)
+                @foreach ($nilais as $row)
                 <input type="hidden" name="nilai_id" id="nilai_id" value="{{$row->id}}" />
                 @endforeach
                 <input type="hidden" name="id" id="edit-id" />
@@ -203,17 +201,16 @@
         });
 
 
-        function deleteConfirmation(jurusan)
+        function deleteConfirmation(nama)
         {
             var form = event.target.form;
             Swal.fire({
                 title: 'Apakah anda yakin?',
                 icon: 'warning',
-                html: "Anda akan menghapus data dengan nama <strong>"+jurusan+"</strong> dan tidak dapat mengembalikannya kembali",
+                html: "Anda akan menghapus data dengan nama <strong>"+nama+"</strong> dan tidak dapat mengembalikannya kembali",
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                cancelButtonText: 'Batal',
                 confirmButtonText: 'Ya, hapus saja!',
             }). then((result) => {
                 if(result.value) {

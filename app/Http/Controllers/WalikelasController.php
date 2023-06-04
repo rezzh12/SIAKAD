@@ -11,6 +11,7 @@ use App\Models\Kelas;
 use App\Models\Ruangan;
 use App\Models\Mapel;
 use App\Models\Jadwal;
+use App\Models\Nilai;
 use App\Models\Guru;
 use App\Models\Riwayat_Nilai;
 use PDF;
@@ -83,7 +84,8 @@ class WalikelasController extends Controller
         ->select('nama_lengkap','riwayat__nilais.NISN','riwayat__nilais.nilai','riwayat__nilais.id AS idr','nilais.id','riwayat__nilais.ketercapaian','riwayat__nilais.Deskripsi')
         ->where('nilais.id','=',$id)
         ->get();
-        return view('Walikelas.riwayatNilai', compact('user','nilai','riwayat'));
+        $nilais = Nilai::where('id',$id)->get();
+        return view('Walikelas.riwayatNilai', compact('user','nilai','nilais','riwayat'));
     }
 
     public function laporan(){
@@ -134,7 +136,7 @@ class WalikelasController extends Controller
         $riwayat->nilai_id = $req->get('nilai_id');
         $riwayat->save();
         Session::flash('status', 'Tambah data Nilai berhasil!!!');
-        return redirect()->route('walikelas.nilai');
+        return redirect()->back();
     }}
     public function update_riwayat(Request $req)
     { 
@@ -153,7 +155,7 @@ class WalikelasController extends Controller
         $riwayat->nilai_id = $req->get('nilai_id');
         $riwayat->save();
         Session::flash('status', 'Ubah data Nilai berhasil!!!');
-        return redirect()->route('walikelas.nilai');
+        return redirect()->back();
     }
     }
     public function getDataRiwayat($id)
@@ -161,13 +163,13 @@ class WalikelasController extends Controller
         $riwayat = Riwayat_Nilai::find($id);
         return response()->json($riwayat);
     }
-    public function delete_riwayat($id)
+    public function delete_riwayat(Request $req,$nilai,$id)
     {
-        $riwayat = Riwayat_Nilai::find($id);
+        $riwayat = Riwayat_Nilai::where('id',$req->id)->first();
         $riwayat->delete();
 
         Session::flash('status', 'Hapus data Nilai berhasil!!!');
-        return redirect()->route('walikelas.nilai');
+        return redirect()->back();
     }
     
 }
